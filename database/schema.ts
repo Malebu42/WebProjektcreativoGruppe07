@@ -7,15 +7,131 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
-export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'updatedAt'] as const
-  $columns = UserSchema.$columns
+export class CategorySchema extends BaseModel {
+  static $columns = ['createdAt', 'icon', 'id', 'name', 'updatedAt'] as const
+  $columns = CategorySchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column()
-  declare email: string
+  declare icon: string | null
+  @column({ isPrimary: true })
+  declare id: number
   @column()
-  declare fullName: string | null
+  declare name: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class CommentSchema extends BaseModel {
+  static $columns = ['content', 'createdAt', 'id', 'postId', 'userId'] as const
+  $columns = CommentSchema.$columns
+  @column()
+  declare content: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare postId: number
+  @column()
+  declare userId: number
+}
+
+export class FollowSchema extends BaseModel {
+  static $columns = ['createdAt', 'followedId', 'followerId'] as const
+  $columns = FollowSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare followedId: number
+  @column({ isPrimary: true })
+  declare followerId: number
+}
+
+export class LikeSchema extends BaseModel {
+  static $columns = ['createdAt', 'postId', 'userId'] as const
+  $columns = LikeSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare postId: number
+  @column({ isPrimary: true })
+  declare userId: number
+}
+
+export class NotificationSchema extends BaseModel {
+  static $columns = ['actorId', 'commentId', 'createdAt', 'id', 'isRead', 'postId', 'type', 'userId'] as const
+  $columns = NotificationSchema.$columns
+  @column()
+  declare actorId: number
+  @column()
+  declare commentId: number | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare isRead: boolean
+  @column()
+  declare postId: number | null
+  @column()
+  declare type: string
+  @column()
+  declare userId: number
+}
+
+export class PostCategorySchema extends BaseModel {
+  static $columns = ['categoryId', 'postId'] as const
+  $columns = PostCategorySchema.$columns
+  @column()
+  declare categoryId: number
+  @column({ isPrimary: true })
+  declare postId: number
+}
+
+export class PostMediaSchema extends BaseModel {
+  static $columns = ['fileType', 'fileUrl', 'id', 'postId'] as const
+  $columns = PostMediaSchema.$columns
+  @column()
+  declare fileType: string
+  @column()
+  declare fileUrl: string
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare postId: number
+}
+
+export class PostSchema extends BaseModel {
+  static $columns = ['caption', 'createdAt', 'id', 'title', 'updatedAt', 'userId'] as const
+  $columns = PostSchema.$columns
+  @column()
+  declare caption: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare title: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
+export class UserSchema extends BaseModel {
+  static $columns = ['avatarUrl', 'bio', 'createdAt', 'displayName', 'email', 'id', 'password', 'updatedAt'] as const
+  $columns = UserSchema.$columns
+  @column()
+  declare avatarUrl: string | null
+  @column()
+  declare bio: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare displayName: string
+  @column()
+  declare email: string
   @column({ isPrimary: true })
   declare id: number
   @column({ serializeAs: null })
