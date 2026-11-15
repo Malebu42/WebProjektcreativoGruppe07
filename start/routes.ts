@@ -27,5 +27,12 @@ router
   .group(() => {
     router.on('/dashboard').render('pages/dashboard').as('dashboard')
     router.post('logout', [controllers.Session, 'destroy'])
+
+    // NEU: Profil
+    router.get('profile', [controllers.Profile, 'show']).as('profile.show')
+    router.get('profile/edit', [controllers.Profile, 'edit']).as('profile.edit')
+    router.post('profile', [controllers.Profile, 'update']).as('profile.update')
+    router.post('profile/password', [controllers.Profile, 'updatePassword']).as('profile.password')
+    router.post('profile/avatar', [controllers.Profile, 'updateAvatar']).as('profile.avatar')
   })
   .use(middleware.auth())
