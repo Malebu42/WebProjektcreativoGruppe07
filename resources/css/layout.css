@@ -1,0 +1,117 @@
+/* =============================================
+   Layout von Creativo
+   Zuerst die Regeln fürs Handy,
+   unten ab 768 px Breite die Regeln für Laptop.
+   ============================================= */
+
+/* Ganze Seite */
+body.app {
+  margin: 0;
+  background: #f5f7fb;
+  color: #111827;
+}
+
+/* ---------- Obere Leiste ---------- */
+.topbar {
+  display: flex;                    /* Logo und Button nebeneinander */
+  justify-content: space-between;   /* Logo links, Button rechts */
+  align-items: center;              /* vertikal mittig */
+  padding: 12px 16px;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.topbar__logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #2563eb;                   /* Blau aus dem Entwurf */
+  text-decoration: none;            /* Link nicht unterstreichen */
+}
+
+/* ---------- Inhalt ---------- */
+.page-content {
+  padding: 16px;
+  padding-bottom: 80px;             /* Platz für die Leiste unten */
+}
+
+/* ---------- Seitenleiste: auf dem Handy versteckt ---------- */
+.sidebar {
+  display: none;
+}
+
+/* ---------- Leiste unten (Handy) ---------- */
+.bottom-nav {
+  position: fixed;                  /* bleibt immer am unteren Rand */
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;    /* Icons gleichmäßig verteilen */
+  padding: 12px 0;
+  background: white;
+  border-top: 1px solid #e5e7eb;
+}
+
+.bottom-nav__item {
+  color: #6b7280;                   /* grau */
+}
+
+/* Die aktuelle Seite wird blau */
+.bottom-nav__item[aria-current='page'] {
+  color: #2563eb;
+}
+
+/* Menüpunkte ohne Seite etwas blasser */
+.is-disabled {
+  opacity: 0.5;
+}
+
+/* ---------- Ab 768 px Breite (Tablet, Laptop) ---------- */
+@media (min-width: 768px) {
+
+  /* Leiste unten ausblenden */
+  .bottom-nav {
+    display: none;
+  }
+
+  /* Seitenleiste und Inhalt nebeneinander */
+  .app-shell {
+    display: flex;
+    gap: 24px;
+    padding: 24px;
+  }
+
+  /* Seitenleiste einblenden, Punkte untereinander */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 220px;
+  }
+
+  .sidebar__item {
+    display: flex;                  /* Icon und Text nebeneinander */
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    color: #111827;
+    text-decoration: none;
+  }
+
+  .sidebar__item:hover {
+    background: #eff4ff;            /* hellblau beim Drüberfahren */
+  }
+
+  /* Die aktuelle Seite blau hinterlegt, wie im Wireframe */
+  .sidebar__item[aria-current='page'] {
+    background: #2563eb;
+    color: white;
+  }
+
+  /* Inhalt nimmt den restlichen Platz ein */
+  .page-content {
+    flex: 1;
+    padding: 0;
+  }
+}
