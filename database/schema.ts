@@ -11,7 +11,7 @@ export class CategorySchema extends BaseModel {
   static $columns = ['createdAt', 'icon', 'id', 'name', 'updatedAt'] as const
   $columns = CategorySchema.$columns
   @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
+  declare createdAt: DateTime | null
   @column()
   declare icon: string | null
   @column({ isPrimary: true })
