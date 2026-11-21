@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import hash from '@adonisjs/core/services/hash'
 import drive from '@adonisjs/drive/services/main'
-import { cuid } from '@adonisjs/core/helpers'
+import { randomUUID } from 'node:crypto'
 import {
   avatarValidator,
   changePasswordValidator,
@@ -35,7 +35,7 @@ export default class ProfileController {
 
     // Nur diese drei Felder werden übernommen, sonst nichts aus dem Request
     user.merge({
-      fullName: data.fullName,
+      displayName: data.displayName,
       bio: data.bio ?? null,
       email: data.email,
     })
@@ -70,8 +70,8 @@ export default class ProfileController {
     const user = auth.getUserOrFail()
     const { avatar } = await request.validateUsing(avatarValidator)
 
-    // Zufälliger Dateiname statt Originalname (sicherer)
-    const key = `avatars/${cuid()}.${avatar.extname}`
+    // Zufälliger Dateiname statt Originalname (sicherer). randomUUID ist in Node eingebaut.
+    const key = `avatars/${randomUUID()}.${avatar.extname}`
     await avatar.moveToDisk(key)
 
     // Altes Bild löschen

@@ -3,7 +3,7 @@ import vine from '@vinejs/vine'
 /** Profil bearbeiten: Name, Bio, E-Mail */
 export const updateProfileValidator = vine.withMetaData<{ userId: number }>().compile(
   vine.object({
-    fullName: vine.string().trim().minLength(3).maxLength(30),
+    displayName: vine.string().trim().minLength(2).maxLength(50),
     bio: vine.string().trim().maxLength(300).optional(),
     email: vine
       .string()
