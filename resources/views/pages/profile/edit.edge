@@ -1,0 +1,92 @@
+@layouts.app({ title: 'Profil bearbeiten' })
+  @page()
+    <h1>Profil bearbeiten</h1>
+
+    {{-- 1. Profilfoto --}}
+    <h2>Profilfoto</h2>
+    @form({
+      route: 'profile.avatar',
+      method: 'POST',
+      enctype: 'multipart/form-data',
+    })
+      {{-- TODO (Sofia, JavaScript): Vorschau des gewählten Bildes anzeigen.
+           Das Eingabefeld findest du mit: document.querySelector('input[name="avatar"]') --}}
+      <div id="avatar-preview" style="margin-bottom: 8px;">
+        @if(user.avatarUrl)
+          <img
+            src="/uploads/{{ user.avatarUrl }}"
+            alt="Aktuelles Profilbild"
+            width="96"
+            height="96"
+            style="border-radius: 50%; object-fit: cover;"
+          >
+        @end
+      </div>
+
+      @field.root({ name: 'avatar' })
+        @!field.label({ text: 'Neues Foto (JPG oder PNG, max. 5 MB)' })
+        @!input.control({ type: 'file', accept: 'image/png,image/jpeg' })
+        @!field.error()
+      @end
+
+      @!button({ text: 'Foto speichern', type: 'submit' })
+    @end
+
+    {{-- 2. Profildaten --}}
+    <h2>Profildaten</h2>
+    @form({ route: 'profile.update', method: 'POST' })
+      @field.root({ name: 'displayName' })
+        @!field.label({ text: 'Anzeigename' })
+        @!input.control({ value: user.displayName, autocomplete: 'nickname' })
+        @!field.error()
+      @end
+
+      @field.root({ name: 'email' })
+        @!field.label({ text: 'E-Mail' })
+        @!input.control({ type: 'email', value: user.email, autocomplete: 'email' })
+        @!field.error()
+      @end
+
+      @field.root({ name: 'bio' })
+        <label for="bio">Bio</label>
+        <textarea id="bio" name="bio" rows="4" maxlength="300">{{ user.bio || '' }}</textarea>
+        @!field.error()
+      @end
+
+      @!button({ text: 'Änderungen speichern', type: 'submit' })
+    @end
+
+    {{-- 3. Passwort ändern --}}
+    <h2>Passwort ändern</h2>
+    @form({ route: 'profile.password', method: 'POST' })
+      @field.root({ name: 'currentPassword' })
+        @!field.label({ text: 'Aktuelles Passwort' })
+        @!input.control({ type: 'password', autocomplete: 'current-password' })
+        @!field.error()
+      @end
+
+      @field.root({ name: 'password' })
+        @!field.label({ text: 'Neues Passwort (mindestens 8 Zeichen)' })
+        @!input.control({ type: 'password', autocomplete: 'new-password' })
+        @!field.error()
+      @end
+
+      @field.root({ name: 'passwordConfirmation' })
+        @!field.label({ text: 'Neues Passwort wiederholen' })
+        @!input.control({ type: 'password', autocomplete: 'new-password' })
+        @!field.error()
+      @end
+
+      {{-- TODO (Sofia, JavaScript): Live-Prüfung beim Tippen, zum Beispiel
+           "mindestens 8 Zeichen" und "beide Passwörter gleich".
+           Die Meldung kannst du in dieses Element schreiben: --}}
+      <p id="password-hint" aria-live="polite"></p>
+
+      @!button({ text: 'Passwort ändern', type: 'submit' })
+    @end
+
+    @link({ route: 'profile.show' })
+      Zurück zum Profil
+    @end
+  @end
+@end
