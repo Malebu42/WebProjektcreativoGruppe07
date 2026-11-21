@@ -1,0 +1,40 @@
+@layouts.app({ title: 'Profil' })
+  @page()
+    {{-- Profilkopf: Bild (oder Initialen), Name und Bio --}}
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;">
+
+      @if(user.avatarUrl)
+        <img
+          src="/uploads/{{ user.avatarUrl }}"
+          alt="Profilbild von {{ user.displayName }}"
+          width="96"
+          height="96"
+          style="border-radius: 50%; object-fit: cover;"
+        >
+      @else
+        {{-- Kein Foto vorhanden: Initialen anzeigen (kommt aus dem User-Model) --}}
+        <div
+          aria-hidden="true"
+          style="width: 96px; height: 96px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; background: var(--subtle, #ccc);"
+        >
+          {{ user.initials }}
+        </div>
+      @end
+
+      <h1>{{ user.displayName }}</h1>
+
+      @if(user.bio)
+        <p>{{ user.bio }}</p>
+      @else
+        <p>Noch keine Bio.</p>
+      @end
+
+      @link({ route: 'profile.edit' })
+        Profil bearbeiten
+      @end
+    </div>
+
+    {{-- TODO (Marius/Izem): Beitragskacheln und Follower-Zahlen,
+         sobald Beiträge und Relationen im Projekt vorhanden sind. --}}
+  @end
+@end
