@@ -4,9 +4,9 @@
 
   @form({ route: 'new_account.store', method: 'POST', class: 'auth__form' })
 
-    @field.root({ name: 'fullName' })
-      @!field.label({ text: 'Name' })
-      @!input.control({ autocomplete: 'name', placeholder: 'Max Muster' })
+    @field.root({ name: 'displayName' })
+      @!field.label({ text: 'Anzeigename' })
+      @!input.control({ autocomplete: 'nickname', placeholder: 'Max Muster' })
       @!field.error()
     @end
 

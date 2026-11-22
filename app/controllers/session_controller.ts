@@ -1,6 +1,9 @@
 import User from '#models/user'
 import { loginValidator } from '#validators/user'
 import type { HttpContext } from '@adonisjs/core/http'
+// NEU: Limiter für die Begrenzung der Login-Versuche
+import limiter from '@adonisjs/limiter/services/main'
+import { errors } from '@adonisjs/limiter'
 
 /**
  * SessionController handles user authentication and session management.
@@ -18,12 +21,38 @@ export default class SessionController {
   /**
    * Authenticate user credentials and create a new session
    */
-  async store({ request, auth, response }: HttpContext) {
+  // NEU: "session" wird zusätzlich benötigt, um Meldungen anzuzeigen
+  async store({ request, auth, response, session }: HttpContext) {
     const { email, password } = await request.validateUsing(loginValidator)
-    const user = await User.verifyCredentials(email, password)
 
-    await auth.use('web').login(user)
-    response.redirect().toRoute('dashboard')
+    // NEU: Regel festlegen: 5 Fehlversuche pro Minute, danach 15 Minuten gesperrt
+    const loginLimiter = limiter.use({
+      requests: 5,
+      duration: '1 min',
+      blockDuration: '15 mins',
+    })
+
+    // NEU: Der "Schlüssel" bestimmt, wer gezählt wird: diese IP + diese E-Mail
+    const key = `login_${request.ip()}_${email}`
+
+    // NEU: penalize führt die Prüfung aus und zählt nur FEHLVERSUCHE mit
+    const [error, user] = await loginLimiter.penalize(key, () =>
+      User.verifyCredentials(email, password)
+    )
+
+    // NEU: Wenn ein Fehler auftritt...
+    if (error) {
+      // ...und der Grund ist die Sperre: verständliche Meldung anzeigen
+      if (error instanceof errors.E_TOO_MANY_REQUESTS) {
+        session.flash('error', 'Zu viele Fehlversuche. Bitte warte 15 Minuten.')
+        return response.redirect().back()
+      }
+      // ...sonst (z. B. falsches Passwort): normale Fehlermeldung von Adonis
+      throw error
+    }
+
+    await auth.use('web').login(user!)
+    return response.redirect().toRoute('dashboard') // "return" ergänzt
   }
 
   /**
@@ -31,6 +60,6 @@ export default class SessionController {
    */
   async destroy({ auth, response }: HttpContext) {
     await auth.use('web').logout()
-    response.redirect().toRoute('session.create')
+    return response.redirect().toRoute('session.create') // "return" ergänzt
   }
 }

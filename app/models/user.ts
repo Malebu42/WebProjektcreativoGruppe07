@@ -10,12 +10,12 @@ import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
  */
 export default class User extends compose(UserSchema, withAuthFinder(hash)) {
   /**
-   * Get the user's initials from their full name or email.
+   * Get the user's initials from their display name or email.
    * Returns the first letter of first and last name if available,
    * otherwise returns the first two characters of the email username.
    */
   get initials() {
-    const [first, last] = this.fullName ? this.fullName.split(' ') : this.email.split('@')
+    const [first, last] = this.displayName ? this.displayName.split(' ') : this.email.split('@')
     if (first && last) {
       return `${first.charAt(0)}${last.charAt(0)}`.toUpperCase()
     }
