@@ -1,51 +1,38 @@
+{{--
+  Rahmen für die Seiten Anmelden und Registrieren.
+  Oben das Logo, darunter zwei Reiter, darunter das Formular der jeweiligen Seite.
+--}}
 <!DOCTYPE html>
-<html
-  lang="en-us"
-  data-theme="{{
-    request.plainCookie('app_theme', {
-      defaultValue: 'light',
-      encoded: false,
-    })
-  }}"
->
+<html lang="de" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AdonisJS — Starter Kit</title>
+    <title>Creativo</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('dumper')
   </head>
-  <body>
-    <div class="auth">
-      <div class="auth__form-col">
-        @!logo({ size: 28 })
-        <div class="auth__form-wrap">{{{ await $slots.main() }}}</div>
-        <div style="height: 20px;"></div>
-      </div>
 
-      <aside class="auth__aside">
-        <div class="auth__aside-top">
-          @!themeToggle()
-        </div>
+  <body class="auth-page">
+    <main class="auth-card">
 
-        <p class="auth__quote">Auth, kept intentionally minimal so you can build it your way.</p>
+      {{-- Logo --}}
+      <p class="auth-logo">Creativo</p>
 
-        <div>
-          <div class="pitch__t">Looking for production-ready auth?</div>
-          <p class="pitch__p">
-            Check out Feature packs, production-ready full-stack components from the creator of AdonisJS.
-          </p>
-          <a
-            class="il pitch__a"
-            href="https://plus.adonisjs.com/feature-packs"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Explore Feature packs →
-          </a>
-        </div>
-      </aside>
-    </div>
+      {{-- Reiter: Anmelden / Registrieren --}}
+      <nav class="auth-tabs" aria-label="Anmelden oder Registrieren">
+        @navLink({ route: 'session.create', class: 'auth-tab' })
+          Anmelden
+        @end
+        @navLink({ route: 'new_account.create', class: 'auth-tab' })
+          Registrieren
+        @end
+      </nav>
+
+      {{-- Hier wird das Formular der jeweiligen Seite eingesetzt --}}
+      {{{ await $slots.main() }}}
+
+    </main>
+
     @include('partials/flash_alerts')
   </body>
 </html>
