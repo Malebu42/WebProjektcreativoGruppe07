@@ -1,24 +1,21 @@
 @layouts.auth()
-  <h1 class="auth__title">Welcome back</h1>
-  <p class="auth__sub">Sign in to continue building.</p>
-  @form({
-    route: 'session.store',
-    method: 'POST',
-    class: 'auth__form',
-    'x-data': '{ submitting: false }',
-    'x-on:submit': 'submitting = true',
-  })
+  <h1 class="auth-title">Willkommen zurück</h1>
+  <p class="auth-sub">Melde dich an, um weiterzumachen.</p>
+
+  @form({ route: 'session.store', method: 'POST', class: 'auth__form' })
+
     @field.root({ name: 'email' })
-      @!field.label({ text: 'Email' })
+      @!field.label({ text: 'E-Mail' })
       @!input.control({
         type: 'email',
         autocomplete: 'username',
-        placeholder: 'you@example.com',
+        placeholder: 'name@beispiel.de',
       })
       @!field.error()
     @end
+
     @field.root({ name: 'password' })
-      @!field.label({ text: 'Password' })
+      @!field.label({ text: 'Passwort' })
       @!input.control({
         type: 'password',
         autocomplete: 'current-password',
@@ -26,24 +23,8 @@
       })
       @!field.error()
     @end
-    @!button({
-      text: 'Sign in',
-      type: 'submit',
-      block: true,
-      style: 'margin-top: 4px;',
-      'x-bind:disabled': 'submitting',
-      'x-text': "submitting ? 'One moment…' : 'Sign in'",
-    })
+
+    @!button({ text: 'Anmelden', type: 'submit', block: true })
+
   @end
-
-  <p class="auth__foot">
-    
-
-    New here?
-
-
-    @link({ route: 'new_account.create', class: 'il' })
-      Create an account
-    @end
-  </p>
 @end

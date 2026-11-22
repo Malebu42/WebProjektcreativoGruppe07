@@ -1,0 +1,70 @@
+/* =============================================
+   Gestaltung der Seiten Anmelden und Registrieren
+   ============================================= */
+
+/* Ganze Seite: grauer Hintergrund, Karte in der Mitte */
+.auth-page {
+  margin: 0;
+  min-height: 100vh;              /* mindestens so hoch wie der Bildschirm */
+  box-sizing: border-box;         /* Innenabstand zählt zur Höhe dazu */
+  padding: 16px;
+  display: flex;
+  justify-content: center;        /* waagerecht mittig */
+  align-items: center;            /* senkrecht mittig */
+  background: #f5f7fb;
+  --btn: #2563eb;                 /* Buttons des Starterkits blau färben */
+}
+
+/* Weiße Karte mit dem Formular */
+.auth-card {
+  width: 100%;
+  max-width: 400px;               /* nicht breiter als 400 px */
+  padding: 32px 24px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+}
+
+/* Logo */
+.auth-logo {
+  margin: 0 0 24px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  color: #2563eb;
+}
+
+/* Reiter nebeneinander, mit Linie darunter */
+.auth-tabs {
+  display: flex;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Ein Reiter: nimmt die Hälfte der Breite ein */
+.auth-tab {
+  flex: 1;
+  padding: 10px 0;
+  text-align: center;
+  color: #6b7280;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+
+/* Aktiver Reiter: blau mit blauer Linie */
+.auth-tab[aria-current='page'] {
+  color: #2563eb;
+  font-weight: bold;
+  border-bottom-color: #2563eb;
+}
+
+/* Überschrift und Untertitel */
+.auth-title {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+.auth-sub {
+  margin: 0 0 20px;
+  color: #6b7280;
+}
