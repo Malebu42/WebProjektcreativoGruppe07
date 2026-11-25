@@ -2,8 +2,9 @@
 node_modules
 build
 
-# tmp/*
-# !tmp/.gitkeep
+tmp/*
+!tmp/.gitkeep
+!tmp/db.sqlite3
 
 # Secrets
 # .env
