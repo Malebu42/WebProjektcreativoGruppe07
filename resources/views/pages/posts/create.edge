@@ -1,0 +1,73 @@
+@layouts.app({ title: 'Beitrag erstellen' })
+  @page({ title: 'Beitrag erstellen', description: 'Teile deine Arbeit mit der Community.' })
+
+    {{-- enctype ist Pflicht, sonst schickt der Browser keine Dateien mit --}}
+    @form({ route: 'posts.store', method: 'POST', enctype: 'multipart/form-data' })
+
+      {{-- 1. Bilder --}}
+      @field.root({ name: 'media' })
+        @!field.label({ text: 'Bilder' })
+        {{-- name="media[]" + multiple: mehrere Dateien, kommen im Controller als Array an --}}
+        @!input.control({
+          type: 'file',
+          name: 'media[]',
+          multiple: true,
+          accept: 'image/jpeg,image/png,image/webp',
+        })
+        <p class="field__hint">1–3 Bilder (JPG, PNG oder WebP), je max. 5 MB</p>
+        @!field.error()
+
+        {{-- Fehler zu einzelnen Dateien heißen "media.0", "media.1" … und werden
+             von @field.error nicht erfasst (das sucht nur nach "media") --}}
+        @let(errorsBag = flashMessages.get('inputErrorsBag', {}))
+        @let(fileErrors = Object.keys(errorsBag)
+          .filter((key) => key.startsWith('media.'))
+          .flatMap((key) => errorsBag[key]))
+        @if(fileErrors.length)
+          <span class="field__error">
+            @each(message in fileErrors)
+              {{ message }}
+            @end
+          </span>
+        @end
+
+        {{-- TODO (JavaScript): Vorschau der gewählten Bilder anzeigen.
+             Das Eingabefeld findest du mit: document.querySelector('input[name="media[]"]') --}}
+        <div id="media-preview"></div>
+      @end
+
+      {{-- 2. Titel --}}
+      @field.root({ name: 'title' })
+        @!field.label({ text: 'Titel' })
+        @!input.control({ maxlength: 100, required: true })
+        @!field.error()
+      @end
+
+      {{-- 3. Beschreibung --}}
+      @field.root({ name: 'caption' })
+        @!field.label({ text: 'Beschreibung (optional)' })
+        @!textarea.control({ rows: 5, maxlength: 2000, class: 'field__input' })
+        @!field.error()
+      @end
+
+      {{-- 4. Kategorien --}}
+      <fieldset class="field">
+        <legend class="field__label">Kategorien</legend>
+        @checkbox.group({ name: 'categoryIds' })
+          @each(category in categories)
+            @field.root()
+              {{-- value als Text, damit der Vergleich mit dem alten Wert (auch Text) klappt --}}
+              @!checkbox.control({ value: String(category.id) })
+              @!field.label({ text: category.name })
+            @end
+          @end
+          <p class="field__hint">Wähle 1–3 Kategorien.</p>
+          @!field.error()
+        @end
+      </fieldset>
+
+      @!button({ text: 'Veröffentlichen', type: 'submit' })
+    @end
+
+  @end
+@end

@@ -17,6 +17,8 @@ export type ScannedRoutes = {
     'profile.update': { paramsTuple?: []; params?: {} }
     'profile.password': { paramsTuple?: []; params?: {} }
     'profile.avatar': { paramsTuple?: []; params?: {} }
+    'posts.create': { paramsTuple?: []; params?: {} }
+    'posts.store': { paramsTuple?: []; params?: {} }
   }
   GET: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
@@ -26,6 +28,7 @@ export type ScannedRoutes = {
     'dashboard': { paramsTuple?: []; params?: {} }
     'profile.show': { paramsTuple?: []; params?: {} }
     'profile.edit': { paramsTuple?: []; params?: {} }
+    'posts.create': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'drive.fs.serve': { paramsTuple: [...ParamValue[]]; params: {'*': ParamValue[]} }
@@ -35,6 +38,7 @@ export type ScannedRoutes = {
     'dashboard': { paramsTuple?: []; params?: {} }
     'profile.show': { paramsTuple?: []; params?: {} }
     'profile.edit': { paramsTuple?: []; params?: {} }
+    'posts.create': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'new_account.store': { paramsTuple?: []; params?: {} }
@@ -43,6 +47,7 @@ export type ScannedRoutes = {
     'profile.update': { paramsTuple?: []; params?: {} }
     'profile.password': { paramsTuple?: []; params?: {} }
     'profile.avatar': { paramsTuple?: []; params?: {} }
+    'posts.store': { paramsTuple?: []; params?: {} }
   }
 }
 declare module '@adonisjs/core/types/http' {

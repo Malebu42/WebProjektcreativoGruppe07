@@ -34,5 +34,9 @@ router
     router.post('profile', [controllers.Profile, 'update']).as('profile.update')
     router.post('profile/password', [controllers.Profile, 'updatePassword']).as('profile.password')
     router.post('profile/avatar', [controllers.Profile, 'updateAvatar']).as('profile.avatar')
+
+    // NEU: Beiträge
+    router.get('posts/create', [controllers.Posts, 'create']).as('posts.create')
+    router.post('posts', [controllers.Posts, 'store']).as('posts.store')
   })
   .use(middleware.auth())
